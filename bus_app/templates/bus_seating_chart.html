@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bus Seating Chart - {{ bus.number }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff; /* Light Blue */
+            text-align: center;
+        }
+        h1 {
+            color: #0378ec;
+        }
+        .bus-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .row {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .seat {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            margin: 5px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .available {
+            background-color: green;
+            color: white;
+        }
+        .occupied-fee-paid {
+            background-color: blue;
+            color: white;
+        }
+        .occupied-fee-unpaid {
+            background-color: red;
+            color: white;
+        }
+        .gap {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            background: none;
+        }
+        .seat a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <img src="{% static 'images/logo(1).png' %}" alt="ITM University Logo" style="height: 80px;">
+    <h1>Bus Seating Chart - {{ bus.number }}</h1>
+
+    <div class="bus-container">
+        {% for row in seating_chart %}
+            <div class="row">
+                {% for seat in row %}
+                    {% if seat.is_gap %}
+                        <div class="gap"></div>
+                    {% else %}
+                        <div class="seat 
+                            {% if seat.student %}
+                                {% if seat.student.fee_paid %}
+                                    occupied-fee-paid
+                                {% else %}
+                                    occupied-fee-unpaid
+                                {% endif %}
+                            {% else %}
+                                available
+                            {% endif %}">
+                            <a href="{% url 'seat_details' seat.id %}">{{ seat.seat_number }}</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

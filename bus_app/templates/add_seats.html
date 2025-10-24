@@ -1,0 +1,6 @@
+<form method="POST">
+    {% csrf_token %}
+    <label for="num_seats">Number of Seats to Add:</label>
+    <input type="number" name="num_seats" min="1" required>
+    <button type="submit">Add Seats</button>
+</form>

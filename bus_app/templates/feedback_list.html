@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+  Feedback List
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/bus_list.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="top-bar">
+    <h2 style="margin-left: 10px;">All Feedbacks</h2>
+  </div>
+
+  <form method="get" class="filter-form">
+    <input type="text" name="search" placeholder="Search feedback..." value="{{ request.GET.search }}" class="styled-select" style="width:300px;">
+    <button type="submit" class="submit-btn">Search</button>
+  </form>
+
+  {% if feedbacks %}
+    <table>
+      <thead>
+        <tr>
+          <th>Bus</th>
+          <th>Message</th>
+          <th>Submitted At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for fb in feedbacks %}
+          <tr>
+            <td>{{ fb.bus.identifier_number }}</td>
+            <td>{{ fb.message|truncatechars:60 }}</td>
+            <td>{{ fb.submitted_at|date:"d M Y, H:i" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-data">No feedbacks found.</p>
+  {% endif %}
+{% endblock %}

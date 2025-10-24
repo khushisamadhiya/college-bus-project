@@ -1,0 +1,134 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+  Driver List
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/bus_list.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <style>
+    .contact-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .delete-btn {
+      padding: 5px 10px;
+      background-color: #ff4d4f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.85em;
+    }
+
+    .delete-btn:hover {
+      background-color: #e60000;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="top-bar">
+    <a href="{% url 'add_driver' %}" class="add-btn">ADD DRIVER </a>
+  </div>
+
+  <!-- Universal Search Bar -->
+  <form method="get" class="filter-form" style="flex-direction: column; align-items: flex-start;">
+    <div style="width: 100%;">
+      <input type="text" name="search"
+             placeholder="Search..."
+             value="{{ request.GET.search }}"
+             class="styled-select"
+             style="width: 100%; max-width: 400px; margin-bottom: 15px;" />
+      <button type="submit" class="submit-btn">Search</button>
+    </div>
+  </form>
+
+  <!-- Filters -->
+  <form method="get" class="filter-form" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+    <select name="driver_name" class="styled-select searchable">
+      <option value="">Select Driver Name</option>
+      {% for name in driver_names %}
+        <option value="{{ name }}" {% if request.GET.driver_name == name %}selected{% endif %}>{{ name }}</option>
+      {% endfor %}
+    </select>
+
+    <select name="license_number" class="styled-select searchable">
+      <option value="">Select License Number</option>
+      {% for license in license_numbers %}
+        <option value="{{ license }}" {% if request.GET.license_number == license %}selected{% endif %}>{{ license }}</option>
+      {% endfor %}
+    </select>
+
+    <select name="contact_number" class="styled-select searchable">
+      <option value="">Select Contact Number</option>
+      {% for contact in contact_numbers %}
+        <option value="{{ contact }}" {% if request.GET.contact_number == contact %}selected{% endif %}>{{ contact }}</option>
+      {% endfor %}
+    </select>
+
+    <button type="submit" class="submit-btn">Submit</button>
+  </form>
+
+  {% if drivers %}
+    <table>
+      <thead>
+        <tr>
+          <th>Driver Name</th>
+          <th>License Number</th>
+          <th>Contact Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for driver in drivers %}
+          <tr>
+            <td>
+              {% if driver.D_license_number %}
+               <a href="{% url 'driver_detail' driver.D_license_number|urlencode %}">{{ driver.name }}</a>
+              {% else %}
+                {{ driver.name }}
+              {% endif %}
+            </td>
+            <td>{{ driver.D_license_number }}</td>
+            <td>
+              <div class="contact-actions">
+                {{ driver.contact_number }}
+                <form action="{% url 'delete_driver' driver.D_license_number|urlencode %}" method="post" style="display: inline;">
+
+                  {% csrf_token %}
+                  <button type="submit" class="delete-btn" onclick="return confirm('Are you sure you want to delete {{ driver.name }}?');">Delete</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-data">No drivers found.</p>
+  {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      function matchCustom(params, data) {
+        if ($.trim(params.term) === '') return data;
+        if (data.text.toLowerCase().includes(params.term.toLowerCase())) return data;
+        return null;
+      }
+
+      $('.searchable').select2({
+        placeholder: "Select an option",
+        allowClear: true,
+        matcher: matchCustom
+      });
+    });
+  </script>
+{% endblock %}

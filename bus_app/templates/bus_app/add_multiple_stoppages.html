@@ -1,0 +1,42 @@
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <!-- Dropdown for Stoppages will be populated dynamically -->
+    <div id="stoppage-container">
+        <label for="id_stoppages">Stoppages:</label>
+        <div id="stoppages-list"></div>
+    </div>
+    
+    <button type="submit">Save</button>
+</form>
+
+<script>
+    // When the bus dropdown changes, fetch the corresponding stoppages
+    document.getElementById('id_bus').addEventListener('change', function() {
+        var busId = this.value;
+        if (busId) {
+            fetch(`/get_stoppages_for_route/${busId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    var stoppagesList = document.getElementById('stoppages-list');
+                    stoppagesList.innerHTML = '';  // Clear existing options
+                    
+                    data.stoppages.forEach(function(stoppage) {
+                        var checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.name = 'stoppages';
+                        checkbox.value = stoppage.id;
+                        
+                        var label = document.createElement('label');
+                        label.innerText = stoppage.name;
+                        
+                        var div = document.createElement('div');
+                        div.appendChild(checkbox);
+                        div.appendChild(label);
+                        stoppagesList.appendChild(div);
+                    });
+                });
+        }
+    });
+</script>

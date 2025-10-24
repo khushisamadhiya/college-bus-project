@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+  Student Details - {{ student.name }}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/student_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="student-detail-container">
+    <div class="student-detail-header">
+      <!-- Student Photo in Top Right Corner -->
+      <div class="student-info">
+        <h2>Student Details - {{ student.name }}</h2>
+        <div class="section">
+          <div class="section-title">Basic Info</div>
+          <div class="field-row"><span class="field-label">Name:</span> <span>{{ student.name }}</span></div>
+          <div class="field-row"><span class="field-label">Roll Number:</span> <span>{{ student.roll_number }}</span></div>
+          <div class="field-row"><span class="field-label">CRM ID:</span> <span>{{ student.crm_id }}</span></div>
+          <div class="field-row"><span class="field-label">Gender:</span> <span>{{ student.gender }}</span></div>
+          <div class="field-row"><span class="field-label">Program:</span> <span>{{ student.program }}</span></div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Fee Details</div>
+          <div class="field-row"><span class="field-label">Fee Paid:</span> <span>{{ student.fee_paid }}</span></div>
+          <div class="field-row"><span class="field-label">Fee Amount:</span> <span>{{ student.fee_amount }}</span></div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Contact Details</div>
+          <div class="field-row"><span class="field-label">Email:</span> <span>{{ student.email }}</span></div>
+          <div class="field-row"><span class="field-label">Contact Number:</span> <span>{{ student.contact_number }}</span></div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Transport Details</div>
+          <div class="field-row"><span class="field-label">Assigned Bus:</span> <span>{{ student.assigned_bus }}</span></div>
+          <div class="field-row"><span class="field-label">Assigned Seat:</span> <span>{{ student.assigned_seat }}</span></div>
+          <div class="field-row"><span class="field-label">Route:</span> <span>{{ student.route }}</span></div>
+          <div class="field-row"><span class="field-label">Stoppage:</span> <span>{{ student.stoppage }}</span></div>
+        </div>
+      </div>
+
+      <!-- Student Photo (Top Right Corner) -->
+      <div class="student-photo-container">
+        {% if student.photo %}
+          <img src="{{ student.photo.url }}" alt="{{ student.name }}'s Photo" class="student-photo">
+        {% else %}
+          <span>No Photo Available</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <a href="{% url 'student_list' %}" class="back-link">← Back to Student List</a>
+  </div>
+{% endblock %}

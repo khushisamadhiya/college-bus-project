@@ -1,0 +1,77 @@
+.student-detail-container {
+    max-width: 90%;
+    margin: 30px auto;
+    background-color: #fff;
+    padding: 30px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .student-detail-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-start;
+  }
+  
+  .student-photo-container {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .student-photo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%; /* This makes the photo circular */
+    object-fit: cover; /* Ensures the photo covers the area without distortion */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .student-info {
+    flex-grow: 1;
+    margin-left: 20px;
+  }
+  
+  .section {
+    margin-top: 30px;
+  }
+  
+  .section-title {
+    font-size: 24px;
+    color: #007bff;  /* Blue color for the title */
+    margin-bottom: 10px;
+    text-align: left;  /* Left align the section titles */
+  }
+  
+  .field-row {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  .field-row span {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .back-link {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #28a745;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: 0.3s;
+  }
+  
+  .back-link:hover {
+    background-color: #218838;
+  }
+  

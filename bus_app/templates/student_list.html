@@ -1,0 +1,144 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+  Student List
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/bus_list.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+  <div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 20px 0 20px;">
+    <div>
+      <!-- Left space if needed later -->
+    </div>
+    <div class="top-bar" style="margin: 0;">
+      <a href="{% url 'add_student' %}" class="add-btn">ADD STUDENT +</a>
+    </div>
+  </div>
+
+  <!-- Filter Form -->
+  <form method="get" class="filter-form" style="flex-direction: column; align-items: flex-start; margin-top: 0px;">
+
+    <!-- Search Bar First Line -->
+    <div style="width: 80%;">
+      <input type="text" name="search" 
+             placeholder="Search...."
+             value="{{ request.GET.search }}" 
+             class="styled-select"
+             style="width: 80%; max-width: 400px; margin-bottom: 25px;"/>
+             <button type="submit" class="submit-btn">Search</button>
+    </div>
+
+    <!-- Dropdown Filters Second Line -->
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+      <select name="student_name" class="styled-select searchable">
+        <option value="">Select Student Name</option>
+        {% for name in student_names %}
+          <option value="{{ name }}" {% if request.GET.student_name == name %}selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+      </select>
+
+      <select name="roll_number" class="styled-select searchable">
+        <option value="">Select Roll Number</option>
+        {% for roll in roll_numbers %}
+          <option value="{{ roll }}" {% if request.GET.roll_number == roll %}selected{% endif %}>{{ roll }}</option>
+        {% endfor %}
+      </select>
+
+      <select name="school_name" class="styled-select searchable">
+        <option value="">Select School</option>
+        {% for school in school_names %}
+          <option value="{{ school }}" {% if request.GET.school_name == school %}selected{% endif %}>{{ school }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit" class="submit-btn">Submit</button>
+    </div>
+
+  </form>
+
+  {% if students %}
+    <table>
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>Roll No / CRM ID</th>
+          <th>School</th>
+          <th>Program</th>
+          <th>Allot Seat</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+          <tr>
+            <td>
+              {% if student.roll_number or student.crm_id %}
+                <a href="{% url 'student_detail' student.id %}">{{ student.name }}</a>
+              {% else %}
+                {{ student.name }}
+              {% endif %}
+            </td>
+            <td>
+              {% if student.roll_number %}
+                {{ student.roll_number }}
+              {% elif student.crm_id %}
+                {{ student.crm_id }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>
+              {% if student.school %}
+                {{ student.school.name }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>
+              {% if student.program %}
+                {{ student.program }}
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>
+              <div class="side-bar">
+                <a href="{% url 'allot_bus' student.id %}" class="allot-btn">Allot Bus</a>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-data">No students found.</p>
+  {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      function matchCustom(params, data) {
+        if ($.trim(params.term) === '') {
+          return data;
+        }
+        if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
+          return data;
+        }
+        return null;
+      }
+
+      $('.searchable').select2({
+        placeholder: "Select an option",
+        allowClear: true,
+        matcher: matchCustom
+      });
+    });
+  </script>
+{% endblock %}

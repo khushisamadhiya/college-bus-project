@@ -1,0 +1,35 @@
+{% extends "admin/change_form.html" %}
+{% block extrahead %}
+    {{ block.super }}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                function updateStoppages() {
+                    var routeId = $("#id_route").val();
+                    if (routeId) {
+                        $.ajax({
+                            url: "{% url 'admin_get_stoppages' %}",
+                            data: { route_id: routeId },
+                            dataType: "json",
+                            success: function (data) {
+                                var stoppageSelect = $("#id_stoppages");
+                                stoppageSelect.empty();
+                                data.forEach(function (stoppage) {
+                                    stoppageSelect.append(
+                                        `<option value="${stoppage.id}">${stoppage.name}</option>`
+                                    );
+                                });
+                            },
+                        });
+                    } else {
+                        $("#id_stoppages").empty();
+                    }
+                }
+
+                $("#id_route").change(updateStoppages);
+                updateStoppages();
+            });
+        })(django.jQuery);
+    </script>
+{% endblock %}

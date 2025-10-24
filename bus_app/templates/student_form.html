@@ -1,0 +1,283 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg,#709df6,  #ffffff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background:linear-gradient(135deg,#c6d3ff,  #F8F9FA);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        .logo img {
+            width: 180px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+             font-weight: 700;  /* Bold */
+             font-size: 23px;   /* Bigger Text */
+             color: rgb(44, 42, 42);
+             margin-bottom: 10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-weight: 400;
+            align-self: flex-start;
+            margin-top: 10px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .radio-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px; /* Adjust spacing between options */
+            margin: 10px 0;
+        }
+
+/* Style for radio buttons */
+        .radio-group input[type="radio"] {
+            margin-right: 5px; /* Space between radio button and label */
+            transform: scale(1.2); /* Slightly bigger for better visibility */
+        }
+
+/* Label styling */
+        .radio-group label {
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        button {
+            background: linear-gradient(135deg, #0099ff, #0044cc);
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #0077ff, #002299);
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+    <script>
+        function toggleRollOrCRM() {
+            let choice = document.querySelector('input[name="id_choice"]:checked').value;
+            let rollField = document.getElementById("roll_number_div");
+            let crmField = document.getElementById("crm_id_div");
+
+            if (choice === "roll") {
+                rollField.style.display = "block";
+                crmField.style.display = "none";
+                document.getElementById("roll_number").required = true;
+                document.getElementById("crm_id").required = false;
+            } else {
+                rollField.style.display = "none";
+                crmField.style.display = "block";
+                document.getElementById("roll_number").required = false;
+                document.getElementById("crm_id").required = true;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            toggleRollOrCRM(); // Default state
+        });
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo">
+            <img src="{% static 'images/logo(1).png' %}" alt="ITM University Logo">
+        </div>
+        <h2>Bus Registration Form</h2>
+
+    <form id="studentForm" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label>Name:</label>
+        <input type="text" name="name" id="name" required><br>
+
+        <label>Select ID Type:</label>
+        <div class="radio-group">
+            <input type="radio" id="roll" name="id_choice" value="roll" checked onclick="toggleRollOrCRM()">
+            <label for="roll">Roll Number</label>
+
+            <input type="radio" id="crm" name="id_choice" value="crm" onclick="toggleRollOrCRM()">
+            <label for="crm">CRM ID</label>
+        </div><br>
+
+        <div id="roll_number_div">
+            <label>Roll Number:</label>
+            <input type="text" name="roll_number" id="roll_number" required><br>
+        </div>
+
+        <div id="crm_id_div" style="display: none;">
+            <label>CRM ID:</label>
+            <input type="text" name="crm_id" id="crm_id"><br>
+        </div>
+
+        <label>School:</label>
+        <select name="school" id="school" required>
+            <option value="">Loading...</option>
+        </select><br>
+
+        <label>Program:</label>
+        <select name="program" id="program" required>
+            <option value="">Select School First</option>
+        </select><br>
+
+        <label>Fee Amount:</label>
+        <input type="number" name="fee_amount" id="fee_amount"><br>
+
+        <label>Email:</label>
+        <input type="email" name="email" id="email" required><br>
+
+        <label>Contact Number:</label>
+        <input type="text" name="contact_number" id="contact_number"  maxlength="10" pattern="[0-9]{10}" required><br>
+
+        <label>Route:</label>
+        <select name="route" id="route" required>
+            <option value="">Loading...</option>
+        </select><br>
+
+        <label>Stoppage:</label>
+        <select name="stoppage" id="stoppage" required>
+            <option value="">Select Route First</option>
+        </select><br>
+
+        <label>Gender:</label>
+        <select name="gender" id="gender" required>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select><br>
+
+        <label>Photo:</label>
+        <input type="file" name="photo" id="photo" required><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+    const BASE_URL = "https://kanhaiyasoni.pythonanywhere.com";
+
+    async function fetchData(url, dropdown, defaultOption) {
+        dropdown.innerHTML = `<option value="">${defaultOption}</option>`;
+        try {
+            let response = await fetch(BASE_URL + url);
+            let data = await response.json();
+            data[Object.keys(data)[0]].forEach(item => {
+                let option = document.createElement("option");
+                option.value = item;
+                option.textContent = item;
+                dropdown.appendChild(option);
+            });
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchData('/api/get-schools/', document.getElementById("school"), "Select School");
+        fetchData('/api/get-routes/', document.getElementById("route"), "Select Route");
+    });
+
+    document.getElementById("school").addEventListener("change", function () {
+        fetchData(`/api/get-programs/?school=${this.value}`, document.getElementById("program"), "Select Program");
+    });
+
+    document.getElementById("route").addEventListener("change", function () {
+        fetchData(`/api/get-stoppages/?route=${this.value}`, document.getElementById("stoppage"), "Select Stoppage");
+    });
+
+    document.getElementById("contact_number").addEventListener("input", function (e) {
+        this.value = this.value.replace(/\D/g, "");
+    });
+
+    document.getElementById("studentForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        let choice = document.querySelector('input[name="id_choice"]:checked').value;
+        let rollNumber = document.getElementById("roll_number").value.trim();
+        let crmId = document.getElementById("crm_id").value.trim();
+
+        if (choice === "roll" && rollNumber === "") {
+            alert("Please enter Roll Number!");
+            return;
+        }
+        if (choice === "crm" && crmId === "") {
+            alert("Please enter CRM ID!");
+            return;
+        }
+
+        let formData = new FormData(this);
+
+        try {
+            let response = await fetch(BASE_URL + "/api/register-student/", {
+                method: "POST",
+                body: formData
+            });
+
+            let result = await response.json();
+            console.log("Server Response:", result);
+
+            if (result.success) {
+                window.location.href = BASE_URL + "/success/";
+            } else {
+                alert("Error: " + (result.error || result.message));
+            }
+        } catch (error) {
+            console.error("Error submitting form:", error);
+        }
+    });
+</script>
+
+
+</body>
+</html>

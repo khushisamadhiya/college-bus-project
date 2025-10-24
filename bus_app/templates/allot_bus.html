@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allot Bus for {{ student.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        td a {
+            padding: 5px 10px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        td a:hover {
+            background-color: #0056b3;
+        }
+
+        .no-seats {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Allot Bus for {{ student.name }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Bus Number</th>
+                <th>Route</th>
+                <th>Total Seats</th>
+                <th>Vacant Seats</th>
+                <th>Occupied Seats</th>
+                <th>Allot Seat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bus_detail in bus_details %}
+            <tr>
+                <td>{{ bus_detail.bus.number }}</td>
+                <td>{{ bus_detail.bus.route }}</td>
+                <td>{{ bus_detail.total_seats }}</td>
+                <td>{{ bus_detail.vacant_seats }}</td>
+                <td>{{ bus_detail.occupied_seats }}</td>
+                <td>
+                    {% if bus_detail.vacant_seats > 0 %}
+                        <a href="{% url 'select_seat' student.id bus_detail.bus.id %}">Allot Seat</a>
+                    {% else %}
+                        <span class="no-seats">No Vacant Seats</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">No buses available for this route.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

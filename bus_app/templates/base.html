@@ -1,0 +1,132 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}College Bus Management{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'bus_app/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(120deg, #d8f0f3, #92e0fa);
+            color: rgb(70, 67, 67);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1.2rem;
+        }
+        .logo {
+            width: 350px;
+            height: auto;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .btn {
+            background: #FFD700;
+            color: #003366;
+            padding: 15px 25px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background: #FFA500;
+        }
+        main {
+            width: 80%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: rgba(255, 255, 255, 0.3);
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        a {
+            text-decoration: none;
+            color: rgba(61, 57, 57, 0.918);
+            font-weight: bold;
+        }
+        footer {
+            margin-top: 30px;
+        }
+
+        /* ✅ New: Logout Button Style (optional) */
+        .logout-form {
+            margin-top: 10px;
+        }
+        .logout-btn {
+            background: crimson;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .logout-btn:hover {
+            background: darkred;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ✅ ITM University Logo -->
+    <img src="{% static 'images/logo(1).png' %}" alt="ITM University Logo" class="logo">
+    
+    <header>
+        <h1>Welcome to College Bus Portal</h1>
+        
+        {% if user.is_authenticated %}
+        <p>Logged in as: <strong>{{ user.username }}</strong></p>
+
+        <!-- ✅ Logout Button -->
+        <form method="post" action="{% url 'logout' %}" class="logout-form">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+        {% endif %}
+    </header>
+    
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- ✅ Admin Panel Button -->
+    <a href="/buses/" class="btn">Go to dashboard</a>
+
+    <footer>
+        <p>&copy; 2025 ITM University - College Bus Management</p>
+    </footer>
+
+</body>
+</html>

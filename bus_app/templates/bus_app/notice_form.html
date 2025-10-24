@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send Notice</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>Send Notice</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="id_type">Notice Type:</label>
+        <select id="id_type" name="type">
+            <option value="All">All Students</option>
+            <option value="Bus">Bus Notice</option>
+            <option value="Route">Route Notice</option>
+        </select>
+
+        <div id="bus_select">
+            <label for="id_bus">Select Bus:</label>
+            <select id="id_bus" name="bus">
+                <option value="">Select Bus</option>
+                {% for bus in buses %}
+                <option value="{{ bus.id }}">{{ bus.number }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div id="route_select">
+            <label for="id_route">Select Route:</label>
+            <select id="id_route" name="route">
+                <option value="">Select Route</option>
+                {% for route in routes %}
+                <option value="{{ route.id }}">{{ route.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <label for="id_message">Message:</label>
+        <textarea id="id_message" name="message"></textarea>
+
+        <button type="submit">Send Notice</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            function toggleFields() {
+                let type = $("#id_type").val();
+                $("#bus_select").hide();
+                $("#route_select").hide();
+
+                if (type === "Bus") {
+                    $("#bus_select").show();
+                } else if (type === "Route") {
+                    $("#route_select").show();
+                }
+            }
+
+            $("#id_type").change(toggleFields);
+            toggleFields();  // ✅ Page load pe bhi check kare
+        });
+    </script>
+</body>
+</html>

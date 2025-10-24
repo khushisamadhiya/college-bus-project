@@ -1,0 +1,10 @@
+<form method="post">
+    {% csrf_token %}
+    <label for="seat_id">Select Seat:</label>
+    <select name="seat_id" id="seat_id">
+        {% for seat in seats %}
+            <option value="{{ seat.id }}">Seat {{ seat.seat_number }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Assign Seat</button>
+</form>

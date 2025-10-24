@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Feedback Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #00c9ff, #92fe9d);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .feedback-box {
+      background-color: rgba(255, 255, 255, 0.97);
+      padding: 30px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+    }
+
+    .logo {
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      width: 210px;
+      height: auto;
+    }
+
+    .feedback-box h2 {
+      margin-bottom: 25px;
+      color: #2c3e50;
+      font-size: 1.8rem;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: block;
+      color: #333;
+      font-size: 1rem;
+      text-align: left;
+    }
+
+    select, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+      font-size: 1rem;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 480px) {
+      .feedback-box {
+        padding: 20px;
+      }
+
+      .logo img {
+        width: 120px;
+      }
+
+      .feedback-box h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="feedback-box">
+    <div class="logo">
+      <img src="{% static 'images/logo(1).png' %}" alt="ITM University Logo">
+    </div>
+
+    <h2>Bus Feedback Form</h2>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <label for="id_bus">Select Your Bus</label>
+      {{ form.bus }}
+
+      <label for="id_message">Feedback</label>
+      {{ form.message }}
+
+      <button type="submit">Submit Feedback</button>
+    </form>
+  </div>
+</body>
+</html>

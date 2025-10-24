@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Route List{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/bus_list.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="top-bar">
+    <a href="{% url 'add_route' %}" class="add-btn">ADD ROUTE +</a>
+  </div>
+
+  <form method="get" class="filter-form">
+    <input type="text" name="search" placeholder="Search Route Name..." value="{{ request.GET.search }}" class="styled-select" style="width:300px;">
+    <button type="submit" class="submit-btn">Search</button>
+  </form>
+
+  {% if routes %}
+    <table>
+      <thead>
+        <tr>
+          <th>Route Name</th>
+          <th>Fare (₹)</th>
+          <th>Stoppages</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for route in routes %}
+          <tr>
+            <td>{{ route.name }}</td>
+            <td>{{ route.fare }}</td>
+            <td>
+              {% if route.stoppages.all %}
+                <ul>
+                  {% for stop in route.stoppages.all %}
+                    <li>{{ stop.name }}</li>
+                  {% empty %}
+                    <li>No stoppages</li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                No stoppages
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'edit_route' route.id %}" class="submit-btn" style="background:#3498db;">Edit</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-data">No routes found.</p>
+  {% endif %}
+{% endblock %}
+
+
+{% block extra_js %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}

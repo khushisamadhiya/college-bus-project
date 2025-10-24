@@ -1,0 +1,178 @@
+{% extends "layout.html" %}
+{% block title %}Detailed Report{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .report-container {
+    padding: 20px 30px;
+    margin-top: 20px;
+  }
+
+  .report-section {
+    background: #fdfdfd;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 35px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+
+  .report-section:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
+
+  .report-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #2c3e50;
+    border-left: 6px solid #3498db;
+    padding-left: 12px;
+  }
+
+  .highlight-box p {
+    margin: 6px 0;
+    font-size: 15px;
+    color: #333;
+  }
+
+  .report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+
+  .report-table th, .report-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .report-table th {
+    background: #2c3e50;
+    color: #fff;
+  }
+
+  .report-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .empty-msg {
+    color: #999;
+    font-style: italic;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .filter-bar {
+    text-align: right;
+    margin-bottom: 15px;
+  }
+
+  .filter-bar input {
+    padding: 7px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+</style>
+
+<div class="report-container">
+
+  <div class="report-section">
+    <h2>📊 Overall Statistics</h2>
+    <div class="highlight-box">
+      <p><strong>Total Buses:</strong> {{ total_buses }}</p>
+      <p><strong>Total Routes:</strong> {{ total_routes }}</p>
+      <p><strong>Total Students:</strong> {{ total_students }}</p>
+      <p><strong>Total Schools:</strong> {{ total_schools }}</p>
+      <p><strong>Total Drivers:</strong> {{ total_drivers }}</p>
+      <p><strong>Gender Summary:</strong>
+        Male: {{ gender_summary.Male }},
+        Female: {{ gender_summary.Female }},
+        Other: {{ gender_summary.Other }}
+      </p>
+    </div>
+  </div>
+
+  <div class="report-section">
+    <h2>🚌 Buses per Route</h2>
+    <table class="report-table">
+      <tr><th>Route</th><th>Bus Count</th></tr>
+      {% for route in buses_per_route %}
+        <tr><td>{{ route.name }}</td><td>{{ route.bus_count }}</td></tr>
+      {% empty %}
+        <tr><td colspan="2" class="empty-msg">No data to show</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="report-section">
+    <h2>🎓 Students per Bus</h2>
+    <table class="report-table">
+      <tr><th>Bus</th><th>Student Count</th></tr>
+      {% for bus in students_per_bus %}
+        <tr><td>{{ bus.number }}</td><td>{{ bus.student_count }}</td></tr>
+      {% empty %}
+        <tr><td colspan="2" class="empty-msg">No data to show</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="report-section">
+    <h2>🛣️ Students per Route</h2>
+    <table class="report-table">
+      <tr><th>Route</th><th>Student Count</th></tr>
+      {% for route in students_per_route %}
+        <tr><td>{{ route.name }}</td><td>{{ route.student_count }}</td></tr>
+      {% empty %}
+        <tr><td colspan="2" class="empty-msg">No data to show</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="report-section">
+    <h2>🏫 Top Schools (by Students)</h2>
+    <table class="report-table">
+      <tr><th>School</th><th>Students</th></tr>
+      {% for school in top_schools %}
+        <tr><td>{{ school.name }}</td><td>{{ school.student_count }}</td></tr>
+      {% empty %}
+        <tr><td colspan="2" class="empty-msg">No data to show</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="report-section">
+    <h2>📚 Top Programs (by Students)</h2>
+    <table class="report-table">
+      <tr><th>Program</th><th>Students</th></tr>
+      {% for p in top_programs %}
+        <tr><td>{{ p.program }}</td><td>{{ p.count }}</td></tr>
+      {% empty %}
+        <tr><td colspan="2" class="empty-msg">No data to show</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div class="report-section">
+    <h2>🧑‍✈️ Bus-Driver Assignments</h2>
+    <table class="report-table">
+      <tr><th>Bus</th><th>Driver</th><th>Route</th></tr>
+      {% for assign in driver_assignments %}
+        <tr>
+          <td>{{ assign.bus.number }}</td>
+          <td>{{ assign.driver.name }}</td>
+          <td>{{ assign.route.name }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="3" class="empty-msg">No driver assignments found</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+
+</div>
+{% endblock %}

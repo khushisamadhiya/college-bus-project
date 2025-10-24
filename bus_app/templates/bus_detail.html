@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+  Bus Details - {{ bus.number }}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/bus_detail.css' %}">
+<style>
+  .edit-button {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    background-color: #00bfff; /* Sky Blue */
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+
+  .edit-button:hover {
+    background-color: #009acd;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+  <div class="bus-detail-container">
+    <h2>Bus Details - {{ bus.number }}</h2>
+
+    <div class="section">
+      <div class="section-title">Basic Info</div>
+      <div class="field-row"><span class="field-label">Bus Number:</span> <span>{{ bus.number }}</span></div>
+      <div class="field-row"><span class="field-label">Identifier Number:</span> <span>{{ bus.identifier_number }}</span></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Pollution Details</div>
+      <div class="field-row"><span class="field-label">Pollution Paid:</span> <span>{{ bus.pollution_paid }}</span></div>
+      <div class="field-row"><span class="field-label">Issue Date:</span> <span>{{ bus.pollution_issue_date }}</span></div>
+      <div class="field-row"><span class="field-label">Valid Upto:</span> <span>{{ bus.pollution_valid_upto }}</span></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Insurance Details</div>
+      <div class="field-row"><span class="field-label">Insurance Paid:</span> <span>{{ bus.insurance_paid }}</span></div>
+      <div class="field-row"><span class="field-label">Issue Date:</span> <span>{{ bus.insurance_issue_date }}</span></div>
+      <div class="field-row"><span class="field-label">Valid Upto:</span> <span>{{ bus.insurance_valid_upto }}</span></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Tax & Permit</div>
+      <div class="field-row"><span class="field-label">Tax Paid:</span> <span>{{ bus.tax_paid }}</span></div>
+      <div class="field-row"><span class="field-label">Tax Issue Date:</span> <span>{{ bus.tax_issue_date }}</span></div>
+      <div class="field-row"><span class="field-label">Tax Valid Upto:</span> <span>{{ bus.tax_valid_upto }}</span></div>
+      <div class="field-row"><span class="field-label">Permit:</span> <span>{{ bus.permit }}</span></div>
+      <div class="field-row"><span class="field-label">Permit Issue Date:</span> <span>{{ bus.permit_issue_date }}</span></div>
+      <div class="field-row"><span class="field-label">Permit Valid Upto:</span> <span>{{ bus.permit_valid_upto }}</span></div>
+    </div>
+
+    <a href="{% url 'bus_list' %}" class="back-link">← Back to Bus List</a>
+  </div>
+
+  <a href="{% url 'edit_bus' number=bus.number %}" class="edit-button">Edit Bus</a>
+{% endblock %}

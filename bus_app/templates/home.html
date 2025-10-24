@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>!Connecting You to Campus!</h2>
+    <ul>
+        {% for bus in buses %}
+            <li>
+                <a href="{% url 'bus_seating_chart' bus.bus_number %}">
+                    🚌 Bus {{ bus.bus_number }} (Driver: {{ bus.driver_name }})
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

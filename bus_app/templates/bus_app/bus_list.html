@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bus List</title>
+</head>
+<body>
+    <h1>Bus List</h1>
+
+    <ul>
+        {% for bus in buses %}
+            <li>
+                {{ bus.number }} - {{ bus.route }}
+                <a href="{% url 'bus_stoppages' bus.id %}">View Stoppages</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

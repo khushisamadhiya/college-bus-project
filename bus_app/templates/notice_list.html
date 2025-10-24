@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+  Notice List
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/bus_list.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="top-bar">
+    <a href="{% url 'add_notice' %}" class="add-btn">ADD NOTICE +</a>
+  </div>
+
+  <form method="get" class="filter-form">
+    <input type="text" name="search" placeholder="Search notice..." value="{{ request.GET.search }}" class="styled-select" style="width:300px;">
+    <button type="submit" class="submit-btn">Search</button>
+  </form>
+
+  {% if notices %}
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Bus</th>
+          <th>Route</th>
+          <th>Message</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for notice in notices %}
+          <tr>
+            <td>{{ notice.get_type_display }}</td>
+            <td>{{ notice.bus.bus_number}}</td>
+            <td>{{ notice.route.name}}</td>
+            <td>{{ notice.message|truncatechars:50 }}</td>
+            <td>{{ notice.created_at|date:"d M Y, H:i" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-data">No notices found.</p>
+  {% endif %}
+{% endblock %}

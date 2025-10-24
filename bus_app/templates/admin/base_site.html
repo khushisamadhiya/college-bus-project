@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}ITM University Admin{% endblock %}
+
+{% block branding %}
+    <div style="display: flex; align-items: center;">
+        <img src="{% static 'images/logo(1).png' %}" alt="ITM University Logo" style="height: 50px; margin-right: 10px;">
+        <h1 style="color: white; font-size: 24px;">ITM University Admin</h1>
+    </div>
+{% endblock %}
+
+{% block extrastyle %}
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/admin.css' %}">
+{% endblock %}

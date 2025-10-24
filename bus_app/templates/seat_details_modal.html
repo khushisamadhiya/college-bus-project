@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Seat Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Seat Details</h1>
+    <table>
+        <tr>
+            <th>Seat Number</th>
+            <td>{{ seat.seat_number }}</td>
+        </tr>
+        {% if seat.student %}
+        <tr>
+            <th>Student Name</th>
+            <td>{{ seat.student.name }}</td>
+        </tr>
+        <tr>
+            <th>Roll Number</th>
+            <td>{{ seat.student.roll_number }}</td>
+        </tr>
+        <tr>
+            <th>School</th>
+            <td>{{ seat.student.school }}</td>
+        </tr>
+        <tr>
+            <th>Program</th>
+            <td>{{ seat.student.program }}</td>
+        </tr>
+        <tr>
+            <th>Contact No</th>
+            <td>{{ seat.student.contact_number }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ seat.student.email }}</td>
+        </tr>
+        <tr>
+            <th>Fee Paid</th>
+            <td>{{ seat.student.fee_paid|yesno:"Yes,No" }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="2" style="text-align: center;">No student is assigned to this seat.</td>
+        </tr>
+        {% endif %}
+    </table>
+</body>
+</html>

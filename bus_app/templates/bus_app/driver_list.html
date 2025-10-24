@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Driver List</h1>
+  <a href="{% url 'add_driver' %}">Add New Driver</a>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>License Number</th>
+        <th>Contact Number</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for driver in drivers %}
+        <tr>
+          <td>{{ driver.name }}</td>
+          <td>{{ driver.license_number }}</td>
+          <td>{{ driver.contact_number }}</td>
+          <td>
+            <a href="{% url 'edit_driver' driver.id %}">Edit</a> |
+            <form action="{% url 'delete_driver' driver.id %}" method="POST" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

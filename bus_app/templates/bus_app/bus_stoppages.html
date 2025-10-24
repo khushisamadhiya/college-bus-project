@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ bus.number }} Stoppages</title>
+</head>
+<body>
+    <h1>Stoppages for Bus {{ bus.number }}</h1>
+
+    {% if stoppages %}
+        <ul>
+            {% for stoppage in stoppages %}
+                <li>{{ stoppage.name }} - {{ stoppage.route }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No stoppages available for this bus.</p>
+    {% endif %}
+
+    <a href="{% url 'home' %}">Back to Home</a>
+</body>
+</html>

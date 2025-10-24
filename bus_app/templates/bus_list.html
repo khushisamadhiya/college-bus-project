@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}
+  Bus List
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/bus_list.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+  <div class="top-bar">
+    <a href="{% url 'add_bus' %}" class="add-btn">ADD BUS +</a>
+  </div>
+
+  <form method="get" class="filter-form" style="flex-direction: column; align-items: flex-start;  margin-top: 0px;">
+    
+    <!-- Search Bar -->
+    <div style="width: 100%;">
+      <input type="text" name="search" 
+             placeholder="Search..." 
+             value="{{ request.GET.search }}" 
+             class="styled-select"
+             style="width: 100%; max-width: 400px; margin-bottom: 15px;" />
+             <button type="submit" class="submit-btn">Search</button>
+
+    </div>
+
+    <!-- Dropdown Filters -->
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+      <select name="bus_no" class="styled-select searchable">
+        <option value="">Select Bus No.</option>
+        {% for no in bus_numbers %}
+          <option value="{{ no }}" {% if request.GET.bus_no == no %}selected{% endif %}>{{ no }}</option>
+        {% endfor %}
+      </select>
+
+      <select name="bus_id" class="styled-select searchable">
+        <option value="">Select Bus ID</option>
+        {% for bid in identifiers %}
+          <option value="{{ bid }}" {% if request.GET.bus_id == bid %}selected{% endif %}>{{ bid }}</option>
+        {% endfor %}
+      </select>
+
+      <select name="route" class="styled-select searchable">
+        <option value="">Select Route</option>
+        {% for r in routes %}
+          <option value="{{ r }}" {% if request.GET.route == r %}selected{% endif %}>{{ r }}</option>
+        {% endfor %}
+      </select>
+
+      <button type="submit" class="submit-btn">Submit</button>
+    </div>
+
+  </form>
+
+  {% if buses %}
+    <table>
+      <thead>
+        <tr>
+          <th>Bus Number</th>
+          <th>Identifier Number</th>
+          <th>Route</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for bus in buses %}
+          <tr>
+            <td><a href="{% url 'bus_detail' bus.number %}">{{ bus.number }}</a></td>
+            <td>{{ bus.identifier_number }}</td>
+            <td>{{ bus.route }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="no-data">No buses found.</p>
+  {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      function matchCustom(params, data) {
+        if ($.trim(params.term) === '') {
+          return data;
+        }
+        if (data.text.toLowerCase().indexOf(params.term.toLowerCase()) > -1) {
+          return data;
+        }
+        return null;
+      }
+
+      $('.searchable').select2({
+        placeholder: "Select an option",
+        allowClear: true,
+        matcher: matchCustom
+      });
+    });
+  </script>
+{% endblock %}

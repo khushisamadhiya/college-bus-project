@@ -1,0 +1,28 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<h2 class="text-center my-4">Select Seat for {{ student.name }}</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>Available Seats</h4>
+        <div class="row">
+            {% for seat in seats %}
+<div class="col-md-2 mb-3">
+<div class="card {% if seat.student %}bg-secondary text-white{% else %}bg-success text-white{% endif %}">
+                        <div class="card-body text-center">
+ <h5 class="card-title">Seat {{ seat.seat_number }}</h5>
+                            {% if not seat.student %}
+                                
+<a href="{% url 'assign_seat' student.id bus.id seat.seat_number %}" class="btn btn-light">Assign</a>
+                            {% else %}
+                                <p>Occupied</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
