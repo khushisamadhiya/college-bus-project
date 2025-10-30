@@ -7,7 +7,6 @@
 
 html, body {
     font-family: 'Arial', sans-serif;
-    font-size: 13px;
     overflow-x: hidden;
 }
 
@@ -66,7 +65,7 @@ body.layout-template {
 
 /* Main content */
 .layout-template .my-container {
-    margin-top: 80px; /* To clear fixed navbar */
+    /* To clear fixed navbar */
     margin-left: 250px; /* To clear fixed sidebar */
     padding: 20px;
     width: calc(100% - 250px);

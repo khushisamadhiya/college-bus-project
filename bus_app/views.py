@@ -720,7 +720,6 @@ def about(request):
         {'name': 'Kanhaiya Soni', 'image': 'kanhaiya.png'},
         {'name': 'Prakhar Gupta', 'image': 'gupta ji.png'},
         {'name': 'Khushi samadhiya', 'image': 'khushi.png'},
-        {'name': 'Shreya sharma', 'image': 'shreya.png'},
         {'name': 'Himanshi saxena', 'image': 'himanshi.png'},
         {'name': 'Astha gangle', 'image': 'astha.png'},
     ]
